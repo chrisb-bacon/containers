@@ -1,0 +1,9 @@
+{
+    "id": "setup-user",
+    "name": "Setup User Configs",
+    "containerEnv": {
+        "USERNAME": "vscode",
+        "PYTHON_ROOT": "/home/vscode/.python",
+        "PATH": "/home/vscode/.python/current/bin:/home/vscode/.local/bin:${PATH}"
+    }
+}
