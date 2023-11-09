@@ -35,5 +35,5 @@ jobs:
         with:
           imageName: ghcr.io/chrisb-bacon/machine-learning
           subfolder: machine-learning
-          runCmd: make ci-build # devcontainer build ./machine-learning --workspace-folder ./machine-learning
+          runCmd: devcontainer build ./machine-learning --workspace-folder ./machine-learning
           push: always
