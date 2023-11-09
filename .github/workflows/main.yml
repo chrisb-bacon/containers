@@ -4,9 +4,11 @@ on: # rebuild any PRs and main branch changes
   push:
     branches:
       - main
+      - dev
 
 jobs:
   build:
+    name: fbuild-image
     runs-on: ubuntu-latest
     steps:
 
