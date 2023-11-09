@@ -11,8 +11,7 @@ services:
       resources:
         reservations:
           devices:
-            - capabilities: [ "gpu" ]
-              driver: nvidia
+            - capabilities: [ "nvidia-compute" ]
     volumes:
       - ../:/workspaces:cached
       - ../../data/:/workspaces/data:cached
