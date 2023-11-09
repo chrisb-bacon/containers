@@ -3,7 +3,8 @@
     "dockerComposeFile": [
         "docker-compose.yml"
     ],
-	"workspaceFolder": "/workspaces/",
+	"workspaceMount": "source=${localWorkspaceFolder}/workspace,target=/workspace,type=bind",
+    "workspaceFolder": "/workspace",
     "service": "ml",
     "forwardPorts": [
 		5000
