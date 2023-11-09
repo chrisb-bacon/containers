@@ -7,15 +7,4 @@ services:
       dockerfile: ./Dockerfile
       args:
         - devcontainercli-true
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - capabilities: [ "nvidia-compute" ]
-    volumes:
-      - ../:/workspaces:cached
-      - ../../data/:/workspaces/data:cached
-      - ../../models/:/workspaces/models:cached
-    ports:
-      - "5000:5000"
     command: sleep infinity
