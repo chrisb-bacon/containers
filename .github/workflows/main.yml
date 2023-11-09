@@ -1,22 +1,40 @@
-name: 'build' 
+name: 'build and push to registry' 
 on: # rebuild any PRs and main branch changes
   pull_request:
   push:
     branches:
       - main
-      - dev
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
 
 jobs:
   build:
-    name: build-image
+    name: build-image-and-push
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
+
     steps:
 
       - name: Checkout (GitHub)
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and run dev container task
         uses: devcontainers/ci@v0.3
         with:
-          # Change this to be your CI task/script
-          runCmd: devcontainer build ./machine-learning --workspace-folder ./machine-learning
+          imageName: ghcr.io/chrisb-bacon/machine-learning
+          cacheFrom: ghcr.io/chrisb-bacon/machine-learning
+          subfolder: ./machine-learning
+          runCmd: make ci-build # devcontainer build ./machine-learning --workspace-folder ./machine-learning
+          push: always
