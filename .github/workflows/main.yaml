@@ -1,0 +1,43 @@
+name: 'build and push to registry' 
+on: # rebuild any PRs and main branch changes
+  pull_request:
+  push:
+    branches:
+      - main
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+  NAME: machine-learning
+
+jobs:
+  build:
+    name: build-image-and-push
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+
+      - name: Checkout (GitHub)
+        uses: actions/checkout@v4
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install latest devcontainer cli
+        run: npm install -g @devcontainer/cli
+
+      - name: Build devcontainer
+        run: |
+          devcontainer build ./src/machine-learning --workspace-folder ./machine-learning --image-name ghcr.io/${{ github.actor }}/${{ NAME }}
+          docker tag ghcr.io/${{ github.actor }}/${{ NAME }} ghcr.io/${{ github.actor }}/${{ NAME }}:latest
+
+      - name: Push container
+        run:  docker push ghcr.io/${{ github.actor }}/machine-learning:latest

@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  ml:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      args:
+        - devcontainercli-true
+    volumes:
+      - ..:/workspace:cached
+    command: sleep infinity

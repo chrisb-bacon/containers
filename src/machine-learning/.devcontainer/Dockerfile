@@ -1,4 +1,5 @@
 FROM ubuntu:latest as base
+LABEL org.opencontainers.image.source="https://github.com/chrisb-bacon/containers"
 
 ENV TZ=America/Chicago \
     DEBIAN_FRONTEND=noninteractive
