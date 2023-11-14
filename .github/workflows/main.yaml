@@ -8,6 +8,7 @@ on: # rebuild any PRs and main branch changes
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
+  NAME: machine-learning
 
 jobs:
   build:
@@ -30,10 +31,13 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build and run dev container task
-        uses: devcontainers/ci@v0.3
-        with:
-          imageName: ghcr.io/chrisb-bacon/machine-learning
-          subfolder: machine-learning
-          runCmd: make ci-build
-          push: always
+      - name: Install latest devcontainer cli
+        run: npm install -g @devcontainer/cli
+
+      - name: Build devcontainer
+        run: |
+          devcontainer build ./src/machine-learning --workspace-folder ./machine-learning --image-name ghcr.io/${{ github.actor }}/${{ NAME }}
+          docker tag ghcr.io/${{ github.actor }}/${{ NAME }} ghcr.io/${{ github.actor }}/${{ NAME }}:latest
+
+      - name: Push container
+        run:  docker push ghcr.io/${{ github.actor }}/machine-learning:latest
