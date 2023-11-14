@@ -8,7 +8,6 @@ on: # rebuild any PRs and main branch changes
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
-  PACKAGE_NAME: machine-learning
 
 jobs:
   build:
@@ -36,8 +35,8 @@ jobs:
 
       - name: Build devcontainer
         run: |
-          devcontainer build ./src/machine-learning --workspace-folder ./machine-learning --image-name ghcr.io/${{ github.actor }}/${{ PACKAGE_NAME }}
-          docker tag ghcr.io/${{ github.actor }}/${{ PACKAGE_NAME }} ghcr.io/${{ github.actor }}/${{ PACKAGE_NAME }}:latest
+          devcontainer build ./src/machine-learning --workspace-folder ./machine-learning --image-name ${{ env.REGISTRY }}/${{ github.actor }}/${{ env.PACKAGE_NAME }}
+          docker tag ${{ env.REGISTRY }}/${{ github.actor }}/${{ env.PACKAGE_NAME }} ${{ env.REGISTRY }}/${{ github.actor }}/${{ env.PACKAGE_NAME }}:latest
 
       - name: Push container
-        run:  docker push ghcr.io/${{ github.actor }}/${{ PACKAGE_NAME }}:latest
+        run:  docker push ${{ env.REGISTRY }}/${{ github.actor }}/${{ env.PACKAGE_NAME }}:latest
