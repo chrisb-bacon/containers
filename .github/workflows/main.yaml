@@ -31,7 +31,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Install latest devcontainer cli
-        run: npm install -g @devcontainer/cli
+        run: npm install -g @devcontainers/cli
 
       - name: Build devcontainer
         run: |
