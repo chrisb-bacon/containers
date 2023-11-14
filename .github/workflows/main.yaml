@@ -8,6 +8,7 @@ on: # rebuild any PRs and main branch changes
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
+  PACKAGE_NAME: machine-learning
 
 jobs:
   build:
