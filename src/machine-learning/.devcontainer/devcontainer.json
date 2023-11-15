@@ -1,11 +1,9 @@
 {
     "name": "Machine Learning Setup",
-    "dockerComposeFile": [
-        "docker-compose.yml"
-    ],
-	"workspaceMount": "source=${localWorkspaceFolder}/workspace,target=/workspace,type=bind",
+    "dockerComposeFile": "docker-compose.yml",
     "workspaceFolder": "/workspace",
     "service": "ml",
+    "shutdownAction": "stopCompose",
     "forwardPorts": [
 		5000
 	],

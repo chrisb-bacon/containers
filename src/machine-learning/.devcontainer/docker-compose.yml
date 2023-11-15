@@ -9,4 +9,4 @@ services:
         - devcontainercli-true
     volumes:
       - ..:/workspace:cached
-    command: sleep infinity
+    command: /bin/sh -c "while sleep 1000; do :; done"
