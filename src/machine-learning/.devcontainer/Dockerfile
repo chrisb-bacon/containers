@@ -1,8 +1,26 @@
-FROM ubuntu:latest as base
+FROM ubuntu:22.04
 LABEL org.opencontainers.image.source="https://github.com/chrisb-bacon/containers"
+
+WORKDIR /root/
 
 ENV TZ=America/Chicago \
     DEBIAN_FRONTEND=noninteractive
+
+# Add libcuda dummy dependency
+RUN LAMBDA_REPO=$(mktemp) && \
+    wget -O${LAMBDA_REPO} https://lambdalabs.com/static/misc/lambda-stack-repo.deb && \
+    dpkg -i ${LAMBDA_REPO} && rm -f ${LAMBDA_REPO} && \
+    apt update && sudo apt-get install -y lambda-stack-NVIDIA_REQUIRE_CUDA \
+    reboot
+
+ADD control .
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install --yes equivs && \
+    equivs-build control && \
+    dpkg -i libcuda1-dummy_11.8_all.deb && \
+    rm control libcuda1-dummy_11.8* && \
+    apt-get remove --yes --purge --autoremove equivs && \
+    rm -rf /var/lib/apt/lists/*
 
 ENV PATH /opt/conda/bin:$PATH
 
@@ -50,22 +68,37 @@ RUN apt update && \
     gnupg1 \
     libffi-dev \
     espeak-ng \
-    bzip2
+    bzip2 \
+    nvidia-container-toolkit \
+    lambda-stack-cuda
 
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs -y | sh
 
-RUN mkdir -p ~/miniconda3 &&\
-    wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda3/miniconda.sh &&\
-    bash ~/miniconda3/miniconda.sh -b -u -p ~/miniconda3 \
-    rm -rf ~/miniconda3/miniconda.sh
+ADD lambda.gpg .
+RUN apt-get update && \
+    apt-get install --yes gnupg && \
+    gpg --dearmor -o /etc/apt/trusted.gpg.d/lambda.gpg < lambda.gpg && \
+    rm lambda.gpg && \
+    echo "deb http://archive.lambdalabs.com/ubuntu jammy main" > /etc/apt/sources.list.d/lambda.list && \
+    echo "Package: *" > /etc/apt/preferences.d/lambda && \
+    echo "Pin: origin archive.lambdalabs.com" >> /etc/apt/preferences.d/lambda && \
+    echo "Pin-Priority: 1001" >> /etc/apt/preferences.d/lambda && \
+    echo "cudnn cudnn/license_preseed select ACCEPT" | debconf-set-selections && \
+    apt-get update && \
+    DEBIAN_FRONTEND=noninteractive \
+    apt-get install \
+    --yes \
+    --no-install-recommends \
+    --option "Acquire::http::No-Cache=true" \
+    --option "Acquire::http::Pipeline-Depth=0" \
+    lambda-stack-cuda \
+    lambda-server && \
+    rm -rf /var/lib/apt/lists/*
 
-ENV SHELL=/bin/bash \
-    DOCKER_BUILDKIT=1
-
-RUN wget -nv -O- https://lambdalabs.com/install-lambda-stack.sh | I_AGREE_TO_THE_CUDNN_LICENSE=1 sh -
-
-# Remove scripts now that we're done with them
-RUN apt-get clean -y && rm -rf /tmp/scripts
+# Setup for nvidia-docker
+ENV NVIDIA_VISIBLE_DEVICES all
+ENV NVIDIA_DRIVER_CAPABILITIES compute,utility
+ENV NVIDIA_REQUIRE_CUDA "cuda>=12.2"
 
 ARG vscode
 RUN if [[ -z "$devcontainercli" ]] ; then printf "\nERROR: This Dockerfile needs to be built with VS Code !" && exit 1; else printf "VS Code is detected: $devcontainercli"; fi
