@@ -1,4 +1,4 @@
-FROM ubuntu:22.04
+FROM nvidia/cuda:11.7.1-devel-ubuntu22.04
 LABEL org.opencontainers.image.source="https://github.com/chrisb-bacon/containers"
 
 WORKDIR /root/
@@ -56,29 +56,6 @@ RUN apt update && \
     bzip2
 
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs -y | sh
-
-RUN curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | \
-    apt-key add -
-
-RUN curl -s -L https://nvidia.github.io/nvidia-docker/ubuntu18.04/nvidia-docker.list | \
-    tee /etc/apt/sources.list.d/nvidia-docker.list
-
-RUN apt-get update && apt-get install -y nvidia-container-toolkit
-
-RUN apt-get install \
-    apt-transport-https \
-    ca-certificates \
-    curl \
-    gnupg \
-    lsb-release
-
-RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-
-RUN echo \
-    "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
-    $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
-
-RUN apt install -y --no-install-recommends docker.io nvidia-container-toolkit
 
 RUN # Add libcuda dummy dependency
 ADD control .
