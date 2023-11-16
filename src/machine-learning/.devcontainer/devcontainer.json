@@ -11,18 +11,6 @@
 		5000
 	],
     "features":{
-        "ghcr.io/devcontainers/features/python:1": {
-			"installTools": "true",
-			"version": "latest",
-			"upgrades": "weekly"
-		},
-		"ghcr.io/devcontainers/features/nvidia-cuda:1": {
-			"version": "latest",
-            "installCudnn": true,
-            "installCudnnDev": true,
-            "installNvtx": true,
-            "cudaVersion": "12.2"
-		},
         "ghcr.io/devcontainers/features/common-utils:2": {
             "installZsh": true,
             "installOhMyZsh": true,
