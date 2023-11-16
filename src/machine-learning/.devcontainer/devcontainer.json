@@ -9,11 +9,11 @@
 	],
     "features":{
         "ghcr.io/devcontainers/features/common-utils:2": {
-            "installZsh": "true",
-            "installOhMyZsh": "true",
-            "configureZshAsDefaultShell": "true",
-            "installOhMyZshConfig": "true",
-            "upgradePackages": "true",
+            "installZsh": true,
+            "installOhMyZsh": true,
+            "configureZshAsDefaultShell": true,
+            "installOhMyZshConfig": true,
+            "upgradePackages": false,
             "username": "vscode"
         },
 		"./local-features/setup-user": "latest"

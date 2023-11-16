@@ -4,25 +4,10 @@ LABEL org.opencontainers.image.source="https://github.com/chrisb-bacon/container
 WORKDIR /root/
 
 ENV TZ=America/Chicago \
-    DEBIAN_FRONTEND=noninteractive
-
-# Add libcuda dummy dependency
-RUN LAMBDA_REPO=$(mktemp) && \
-    wget -O${LAMBDA_REPO} https://lambdalabs.com/static/misc/lambda-stack-repo.deb && \
-    dpkg -i ${LAMBDA_REPO} && rm -f ${LAMBDA_REPO} && \
-    apt update && sudo apt-get install -y lambda-stack-NVIDIA_REQUIRE_CUDA \
-    reboot
-
-ADD control .
-RUN apt-get update && \
-    DEBIAN_FRONTEND=noninteractive apt-get install --yes equivs && \
-    equivs-build control && \
-    dpkg -i libcuda1-dummy_11.8_all.deb && \
-    rm control libcuda1-dummy_11.8* && \
-    apt-get remove --yes --purge --autoremove equivs && \
-    rm -rf /var/lib/apt/lists/*
-
-ENV PATH /opt/conda/bin:$PATH
+    DEBIAN_FRONTEND=noninteractive \
+    NVIDIA_VISIBLE_DEVICES=all \
+    NVIDIA_DRIVER_CAPABILITIES=compute,utility \
+    NVIDIA_REQUIRE_CUDA="cuda>=12.2"
 
 RUN apt update && \
     apt install -y --no-install-recommends \
@@ -68,12 +53,44 @@ RUN apt update && \
     gnupg1 \
     libffi-dev \
     espeak-ng \
-    bzip2 \
-    nvidia-container-toolkit \
-    lambda-stack-cuda
+    bzip2
 
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs -y | sh
 
+RUN curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | \
+    apt-key add -
+
+RUN curl -s -L https://nvidia.github.io/nvidia-docker/ubuntu18.04/nvidia-docker.list | \
+    tee /etc/apt/sources.list.d/nvidia-docker.list
+
+RUN apt-get update && apt-get install -y nvidia-container-toolkit
+
+RUN apt-get install \
+    apt-transport-https \
+    ca-certificates \
+    curl \
+    gnupg \
+    lsb-release
+
+RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+
+RUN echo \
+    "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
+    $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+RUN apt install -y --no-install-recommends docker.io nvidia-container-toolkit
+
+RUN # Add libcuda dummy dependency
+ADD control .
+RUN apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install --yes equivs && \
+    equivs-build control && \
+    dpkg -i libcuda1-dummy_11.8_all.deb && \
+    rm control libcuda1-dummy_11.8* && \
+    apt-get remove --yes --purge --autoremove equivs && \
+    rm -rf /var/lib/apt/lists/*
+
+# Setup Lambda repository
 ADD lambda.gpg .
 RUN apt-get update && \
     apt-get install --yes gnupg && \
@@ -95,10 +112,7 @@ RUN apt-get update && \
     lambda-server && \
     rm -rf /var/lib/apt/lists/*
 
-# Setup for nvidia-docker
-ENV NVIDIA_VISIBLE_DEVICES all
-ENV NVIDIA_DRIVER_CAPABILITIES compute,utility
-ENV NVIDIA_REQUIRE_CUDA "cuda>=12.2"
-
 ARG vscode
-RUN if [[ -z "$devcontainercli" ]] ; then printf "\nERROR: This Dockerfile needs to be built with VS Code !" && exit 1; else printf "VS Code is detected: $devcontainercli"; fi
+RUN if [[ -z "$devcontainercli" ]] ; then \
+    printf "\nERROR: This Dockerfile needs to be built with VS Code !" && exit 1; \
+    else printf "VS Code is detected: $devcontainercli"; fi
