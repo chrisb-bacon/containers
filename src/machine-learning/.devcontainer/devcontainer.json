@@ -4,6 +4,9 @@
     "workspaceFolder": "/workspace",
     "service": "ml",
     "shutdownAction": "stopCompose",
+    "hostRequirements": {
+        "gpu":"optional"
+    },
     "forwardPorts": [
 		5000
 	],
