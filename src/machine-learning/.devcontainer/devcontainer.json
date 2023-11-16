@@ -1,27 +1,25 @@
 {
     "name": "Machine Learning Setup",
-    "dockerComposeFile": [
-        "docker-compose.yml"
-    ],
-	"workspaceMount": "source=${localWorkspaceFolder}/workspace,target=/workspace,type=bind",
+    "dockerComposeFile": "docker-compose.yml",
     "workspaceFolder": "/workspace",
     "service": "ml",
+    "shutdownAction": "stopCompose",
     "forwardPorts": [
 		5000
 	],
     "features":{
         "ghcr.io/devcontainers/features/common-utils:2": {
-            "installZsh": "true",
-            "installOhMyZsh": "true",
-            "configureZshAsDefaultShell": "true",
-            "installOhMyZshConfig": "true",
-            "upgradePackages": "true",
+            "installZsh": true,
+            "installOhMyZsh": true,
+            "configureZshAsDefaultShell": true,
+            "installOhMyZshConfig": true,
+            "upgradePackages": false,
             "username": "vscode"
         },
 		"./local-features/setup-user": "latest"
     },
     "remoteUser": "vscode",
-	"containerUser": "root",
+	"containerUser": "vscode",
 	"overrideFeatureInstallOrder": [
         "ghcr.io/devcontainers/features/common-utils:2",
 		"./local-features/setup-user"
