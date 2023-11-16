@@ -19,7 +19,7 @@
 		"./local-features/setup-user": "latest"
     },
     "remoteUser": "vscode",
-	"containerUser": "root",
+	"containerUser": "vscode",
 	"overrideFeatureInstallOrder": [
         "ghcr.io/devcontainers/features/common-utils:2",
 		"./local-features/setup-user"
