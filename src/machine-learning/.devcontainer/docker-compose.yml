@@ -9,4 +9,10 @@ services:
         - devcontainercli-true
     volumes:
       - ..:/workspace:cached
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              capabilities: [ gpu ]
     command: /bin/sh -c "while sleep 1000; do :; done"
