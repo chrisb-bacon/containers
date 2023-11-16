@@ -53,7 +53,8 @@ RUN apt update && \
 
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs -y | sh
 
-RUN wget -nv -O- https://lambdalabs.com/install-lambda-stack.sh | I_AGREE_TO_THE_CUDNN_LICENSE=1 sh -
+RUN wget -nv -O- https://lambdalabs.com/install-lambda-stack.sh | I_AGREE_TO_THE_CUDNN_LICENSE=1 sh - && \
+    reboot
 
 ARG vscode
 RUN if [[ -z "$devcontainercli" ]] ; then \
