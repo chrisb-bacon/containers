@@ -36,7 +36,6 @@ jobs:
         uses: devcontainers/ci@v0.3
         with:
           imageName: ghcr.io/${{ github.actor }}/${{ env.PACKAGE_NAME }}
-          cacheFrom: ghcr.io/${{ github.actor }}/${{ env.PACKAGE_NAME }}
           push: always
       # - name: Install latest devcontainer cli
       #   run: npm install -g @devcontainers/cli
