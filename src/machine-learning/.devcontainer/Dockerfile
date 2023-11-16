@@ -1,13 +1,10 @@
-FROM nvidia/cuda:11.7.1-devel-ubuntu22.04
+FROM nvidia/cuda:12.2.0-devel-ubuntu22.04
 LABEL org.opencontainers.image.source="https://github.com/chrisb-bacon/containers"
 
 WORKDIR /root/
 
 ENV TZ=America/Chicago \
-    DEBIAN_FRONTEND=noninteractive \
-    NVIDIA_VISIBLE_DEVICES=all \
-    NVIDIA_DRIVER_CAPABILITIES=compute,utility \
-    NVIDIA_REQUIRE_CUDA="cuda>=12.2"
+    DEBIAN_FRONTEND=noninteractive
 
 RUN apt update && \
     apt install -y --no-install-recommends \
