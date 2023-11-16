@@ -1,4 +1,4 @@
-FROM nvidia/cuda:12.2.0-devel-ubuntu22.04
+FROM nvidia/cuda:12.2.0-base-ubuntu22.04 as base
 LABEL org.opencontainers.image.source="https://github.com/chrisb-bacon/containers"
 
 WORKDIR /root/
