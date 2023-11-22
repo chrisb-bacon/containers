@@ -1,7 +1,7 @@
 {
     "name": "Machine Learning Setup",
     "dockerComposeFile": "docker-compose.yml",
-    "workspaceFolder": "/workspace",
+    "workspaceFolder": "/workspaces/",
     "service": "ml",
     "shutdownAction": "stopCompose",
     "hostRequirements": {
@@ -19,14 +19,26 @@
             "upgradePackages": false,
             "username": "vscode"
         },
+        "ghcr.io/devcontainers/features/node:1": {
+			"version": "latest"
+		},
+		"ghcr.io/devcontainers/features/python:1": {
+			"version": "latest",
+            "installTools": true,
+            "installPath": "/usr/local/python/current/bin/python"
+		},
+        "ghcr.io/devcontainers/features/rust:1": {},
+		"./local-features/ml": "latest",
 		"./local-features/setup-user": "latest"
     },
     "remoteUser": "vscode",
-	"containerUser": "vscode",
+	"containerUser": "root",
 	"overrideFeatureInstallOrder": [
         "ghcr.io/devcontainers/features/common-utils:2",
         "ghcr.io/devcontainers/features/python:1",
-        "ghcr.io/devcontainers/features/nvidia-cuda:1",
-		"./local-features/setup-user"
+        "ghcr.io/devcontainers/features/node:1",
+        "ghcr.io/devcontainers/features/rust:1",
+		"./local-features/setup-user",
+        "./local-features/ml"
 	]
 }

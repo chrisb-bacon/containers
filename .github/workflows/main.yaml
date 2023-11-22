@@ -36,6 +36,7 @@ jobs:
         uses: devcontainers/ci@v0.3
         with:
           imageName: ghcr.io/${{ github.actor }}/${{ env.PACKAGE_NAME }}
+          subFolder: ./src/ml-2
           push: always
       # - name: Install latest devcontainer cli
       #   run: npm install -g @devcontainers/cli

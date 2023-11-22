@@ -6,13 +6,25 @@ services:
       context: .
       dockerfile: ./Dockerfile
       args:
-        - devcontainercli-true
-    volumes:
-      - ..:/workspace:cached
+        - devcontainercli=true
     deploy:
       resources:
         reservations:
           devices:
             - driver: nvidia
+              device_ids: [ "0" ]
               capabilities: [ gpu ]
-    command: /bin/sh -c "while sleep 1000; do :; done"
+    volumes:
+      - ../:/workspaces:cached
+      - ../../data/:/workspaces/data:cached
+      - ../../models/:/workspaces/models:cached
+    ports:
+      - "5000:5000"
+    command: sleep infinity
+  neo4j:
+    image: neo4j:4.4.27-community
+    volumes:
+      - ../../data/neo4j/data:/data
+    ports:
+      - "7474:8001"
+      - "7686:7686"
