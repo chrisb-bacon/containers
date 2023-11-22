@@ -1,1 +1,1 @@
-[![build](https://github.com/chrisb-bacon/containers/actions/workflows/main.yml/badge.svg?branch=master)](https://github.com/chrisb-bacon/containers/actions/workflows/main.yml)
+[![build and push to registry](https://github.com/chrisb-bacon/containers/actions/workflows/main.yaml/badge.svg?branch=dev)](https://github.com/chrisb-bacon/containers/actions/workflows/main.yaml)
