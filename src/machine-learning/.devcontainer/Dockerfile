@@ -1,10 +1,10 @@
 FROM nvidia/cuda:12.2.0-base-ubuntu22.04 as base
 LABEL org.opencontainers.image.source="https://github.com/chrisb-bacon/containers"
 
-WORKDIR /root/
-
 ENV TZ=America/Chicago \
     DEBIAN_FRONTEND=noninteractive
+
+ENV PATH $PATH
 
 RUN apt update && \
     apt install -y --no-install-recommends \
@@ -15,6 +15,8 @@ RUN apt update && \
     build-essential \
     software-properties-common \
     curl \
+    python3-pip-whl \
+    python3-pip \
     apt-utils \
     ca-certificates \
     wget \
@@ -27,7 +29,6 @@ RUN apt update && \
     unzip \
     unrar \
     zip \
-    awscli \
     csvkit \
     emacs \
     joe \
@@ -51,9 +52,11 @@ RUN apt update && \
     libffi-dev \
     bzip2
 
-RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs -y | sh
+ENV SHELL=/bin/bash \
+    DOCKER_BUILDKIT=1
 
-RUN wget -nv -O- https://lambdalabs.com/install-lambda-stack.sh | I_AGREE_TO_THE_CUDNN_LICENSE=1 sh -
+# Remove scripts now that we're done with them
+RUN apt-get clean -y && rm -rf /tmp/scripts
 
 ARG vscode
 RUN if [[ -z "$devcontainercli" ]] ; then \

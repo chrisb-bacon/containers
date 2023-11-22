@@ -1,0 +1,8 @@
+{
+    "id": "ml",
+    "name": "Machine learning setup",
+    "installsAfter": [
+        "ghcr.io/devcontainers/features/python",
+        "./local-features/setup-user"
+    ]
+}

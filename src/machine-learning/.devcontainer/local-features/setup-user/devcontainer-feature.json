@@ -5,5 +5,8 @@
         "USERNAME": "vscode",
         "PYTHON_ROOT": "/home/vscode/.python",
         "PATH": "/home/vscode/.python/current/bin:/home/vscode/.local/bin:${PATH}"
-    }
+    },
+    "installsAfter": [
+        "ghcr.io/devcontainers/features/python:1"
+    ]
 }

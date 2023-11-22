@@ -1,0 +1,18 @@
+{
+    "id": "setup-user",
+    "name": "Setup user configs",
+    "containerEnv": {
+        "PYTHON_ROOT": "/home/vscode/.python",
+        "DOTNET_SKIP_FIRST_TIME_EXPERIENCE": "1",
+        "PATH": "/home/vscode/.dotnet:/home/vscode/.python/current/bin:/home/vscode/.local/bin:${PATH}"
+    },
+    "install": {
+        "app": "",
+        "file": "install.sh"
+    },
+    "installAfter": [
+        "ghcr.io/devcontainers/features/dotnet",
+        "ghcr.io/devcontainers/features/python",
+        "ghcr.io/devcontainers/features/nvidia-cuda"
+    ]
+}

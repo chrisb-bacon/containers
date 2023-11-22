@@ -1,0 +1,131 @@
+{
+    "name": "Reading Horizons - Machine Learning Enviroment",
+    "dockerComposeFile": "docker-compose.yaml",
+    "workspaceFolder": "/workspaces/",
+    "service": "ml",
+    "shutdownAction": "stopCompose",
+    "hostRequirements": {
+        "gpu": true
+    },
+    "forwardPorts": [
+        5000
+    ],
+    "features": {
+        "ghcr.io/devcontainers/features/common-utils:2": {
+            "installZsh": true,
+            "installOhMyZsh": true,
+            "configureZshAsDefaultShell": true,
+            "installOhMyZshConfig": true,
+            "upgradePackages": false,
+            "username": "vscode"
+        },
+        "ghcr.io/devcontainers/features/dotnet:2": "latest",
+        "ghcr.io/devcontainers/features/python:1": {
+            "version": "3.10",
+            "installTools": "true"
+        },
+        "ghcr.io/devcontainers/features/rust:1": {},
+        "ghcr.io/devcontainers/features/node:1": {},
+        "ghcr.io/devcontainers-contrib/features/digitalocean-cli:1": {},
+        "ghcr.io/flexwie/devcontainer-features/op:1": {},
+        "./internal-features/ml-packages": {},
+        "ghcr.io/devcontainers/features/sshd:1": {
+            "version": "latest"
+        },
+        "ghcr.io/devcontainers/features/git:1": {
+            "version": "latest",
+            "ppa": "false"
+        },
+        "ghcr.io/devcontainers/features/git-lfs:1": {
+            "version": "latest"
+        },
+        "ghcr.io/devcontainers/features/github-cli:1": {
+            "version": "latest"
+        },
+        "ghcr.io/devcontainers/features/docker-in-docker:2": {
+            "version": "latest"
+        },
+        "./internal-features/setup-user": {}
+    },
+    "overrideFeatureInstallOrder": [
+        "ghcr.io/devcontainers/features/common-utils",
+        "ghcr.io/devcontainers/features/git",
+        "ghcr.io/devcontainers/features/dotnet",
+        "ghcr.io/devcontainers/features/python",
+        "ghcr.io/devcontainers/features/sshd",
+        "ghcr.io/devcontainers/features/git-lfs",
+        "ghcr.io/devcontainers/features/github-cli",
+        "ghcr.io/devcontainers/features/docker-in-docker",
+        "ghcr.io/devcontainers/features/nvidia-cuda",
+        "./internal-features/setup-user",
+        "./internal-features/ml-packages"
+    ],
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "1Password.op-vscode",
+                "ms-vscode-remote.remote-containers",
+                "mikestead.dotenv",
+                "PKief.material-icon-theme",
+                "ms-vscode-remote.remote-ssh",
+                "ms-vscode-remote.remote-ssh-edit",
+                "atommaterial.a-file-icon-vscode",
+                "ms-vscode.remote-server",
+                "ms-vscode-remote.vscode-remote-extensionpack",
+                "ms-vscode.remote-explorer",
+                "tomoki1207.pdf",
+                "ms-vscode-remote.remote-wsl",
+                "ms-dotnettools.vscode-dotnet-pack",
+                "ms-dotnettools.vscode-dotnet-runtime",
+                "ms-dotnettools.dotnet-maui",
+                "samuelcolvin.jinjahtml",
+                "ms-python.black-formatter",
+                "ms-dotnettools.csharp",
+                "ms-vscode.cpptools",
+                "ms-dotnettools.csdevkit",
+                "Spoorthi.code-with-todoist",
+                "ms-azuretools.vscode-docker",
+                "p1c2u.docker-compose",
+                "EnvKey.envkey-vscode",
+                "EditorConfig.EditorConfig",
+                "GrapeCity.gc-excelviewer",
+                "github.vscode-github-actions",
+                "GitHub.copilot",
+                "GitHub.copilot-chat",
+                "GitHub.copilot-labs",
+                "GitHub.vscode-pull-request-github",
+                "googlecloudtools.cloudcode",
+                "kisstkondoros.vscode-gutter-preview",
+                "VisualStudioExptTeam.vscodeintellicode",
+                "VisualStudioExptTeam.intellicode-api-usage-examples",
+                "ms-dotnettools.vscodeintellicode-csharp",
+                "Zignd.html-css-class-completion",
+                "ritwickdey.LiveServer",
+                "ms-vscode.makefile-tools",
+                "DavidAnson.vscode-markdownlint",
+                "modular-mojotools.vscode-mojo",
+                "nvidia.nsight-vscode-edition",
+                "christian-kohler.npm-intellisense",
+                "herrmannplatz.npm-dependency-links",
+                "esbenp.prettier-vscode",
+                "ms-python.python",
+                "donjayamanne.python-environment-manager",
+                "mechatroner.rainbow-csv",
+                "lextudio.restructuredtext",
+                "smulyono.reveal",
+                "rust-lang.rust-analyzer",
+                "mrmlnc.vscode-scss",
+                "stripe.vscode-stripe",
+                "yatki.vscode-surround",
+                "rangav.vscode-thunder-client",
+                "Gruntfuggly.todo-tree",
+                "pmneo.tsimporter",
+                "pflannery.vscode-versionlens",
+                "DotJoshJohnson.xml",
+                "redhat.vscode-yaml"
+            ]
+        }
+    },
+    "remoteUser": "vscode",
+    "containerUser": "root"
+}

@@ -1,0 +1,26 @@
+version: "3.8"
+services:
+  ml:
+    build:
+      context: .
+      dockerfile: ./Dockerfile.jammy
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              device_ids: [ "0" ]
+              capabilities: [ gpu ]
+    volumes:
+      - ../:/workspaces:cached
+      - ../data/:/workspaces/data:cached
+    ports:
+      - "5000:5000"
+    command: sleep infinity
+  # neo4j:
+  #   image: neo4j:4.4.27-community
+  #   volumes:
+  #     - ../data/neo4j/data:/workspaces/data
+  #   ports:
+  #     - "8001:7474"
+  #     - "8002:7686"
