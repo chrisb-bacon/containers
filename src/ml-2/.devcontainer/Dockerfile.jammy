@@ -52,6 +52,8 @@ RUN apt-get update \
     && add-apt-repository universe \
     && rm -rf /var/lib/apt/lists/*
 
+RUN curl -sSL https://install.python-poetry.org | python3 -
+
 RUN apt-get update \
     && apt-get -y install build-essential cmake cppcheck valgrind clang lldb llvm gdb python3-dev \
     # Install tools and shells not in common script
@@ -79,5 +81,5 @@ RUN apt-get clean -y && rm -rf /tmp/scripts
 VOLUME [ "/var/lib/docker" ]
 
 # Fire Docker/Moby script if needed
-# ENTRYPOINT [ "/usr/local/share/docker-init.sh", "/usr/local/share/ssh-init.sh"]
+ENTRYPOINT [ "/usr/local/share/docker-init.sh", "/usr/local/share/ssh-init.sh"]
 CMD [ "sleep", "infinity" ]
