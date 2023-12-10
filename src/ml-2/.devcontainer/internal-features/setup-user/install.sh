@@ -34,6 +34,8 @@ mkdir -p /home/${USERNAME}/.python
 ln -snf /usr/local/python/current $PYTHON_PATH
 ln -snf /usr/local/python /opt/python
 
+POETRY_HOME=/etc/poetry
+
 DOTNET_PATH="/home/${USERNAME}/.dotnet"
 ln -snf /usr/local/dotnet/current $DOTNET_PATH
 mkdir -p /opt/dotnet/lts
