@@ -34,6 +34,8 @@ mkdir -p /home/${USERNAME}/.python
 ln -snf /usr/local/python/current $PYTHON_PATH
 ln -snf /usr/local/python /opt/python
 
+POETRY_HOME=/etc/poetry
+
 DOTNET_PATH="/home/${USERNAME}/.dotnet"
 ln -snf /usr/local/dotnet/current $DOTNET_PATH
 mkdir -p /opt/dotnet/lts
@@ -51,6 +53,6 @@ chown -R ${USERNAME}:${USERNAME} ${OPT_DIR}
 chmod -R g+r+w "${OPT_DIR}"
 find "${OPT_DIR}" -type d | xargs -n 1 chmod g+s
 
-echo "Defaults secure_path=\"${DOTNET_ROOT}:${PYTHON_PATH}/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/bin:/usr/local/share:/home/${USERNAME}/.local/bin:${PATH}\"" >> /etc/sudoers.d/$USERNAME
+echo "Defaults secure_path=\"${DOTNET_ROOT}:${POETRY_HOME}:${PYTHON_PATH}/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/bin:/usr/local/share:/home/${USERNAME}/.local/bin:${PATH}\"" >> /etc/sudoers.d/$USERNAME
 
 echo "Done!"
